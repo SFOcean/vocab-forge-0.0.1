@@ -20,6 +20,8 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpen, onClose, onA
   const [cluster, setCluster] = useState('');
   const [exampleSentence, setExampleSentence] = useState('');
   const [banglaMeaning, setBanglaMeaning] = useState('');
+  const [relatedForms, setRelatedForms] = useState('');
+  const [preposition, setPreposition] = useState('');
   const [synonymsStr, setSynonymsStr] = useState('');
   const [antonymsStr, setAntonymsStr] = useState('');
   const [selectedTags, setSelectedTags] = useState<WordTag[]>(['Word Smart 1']);
@@ -40,6 +42,8 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpen, onClose, onA
       rootFamily: rootFamily.trim() || 'General Vocabulary',
       cluster: cluster.trim() || 'General Theme',
       banglaMeaning: banglaMeaning.trim(),
+      relatedForms: relatedForms.trim(),
+      preposition: preposition.trim(),
       exampleSentence: exampleSentence.trim() || `The student applied the word ${word.trim()} in practice.`,
       synonyms: synonymsStr.split(',').map((s) => s.trim()).filter(Boolean),
       antonyms: antonymsStr.split(',').map((a) => a.trim()).filter(Boolean),
@@ -187,6 +191,30 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpen, onClose, onA
               placeholder="e.g. মহানুভব, উদার"
               className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-indigo-500"
             />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-slate-300 font-semibold mb-1">Related Forms</label>
+              <input
+                type="text"
+                value={relatedForms}
+                onChange={(e) => setRelatedForms(e.target.value)}
+                placeholder="Noun: abatement"
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-slate-300 font-semibold mb-1">Preposition</label>
+              <input
+                type="text"
+                value={preposition}
+                onChange={(e) => setPreposition(e.target.value)}
+                placeholder="abate by/from"
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-indigo-500"
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">

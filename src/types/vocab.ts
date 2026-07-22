@@ -17,6 +17,8 @@ export interface VocabWord {
   rootFamily: string; // e.g., "Latin Root: MAL / MIS / DIS"
   cluster: string; // Thematic group, e.g., "Hostility & Harm", "Speech & Talkativeness"
   banglaMeaning: string;
+  relatedForms?: string; // e.g., "Noun: abatement"
+  preposition?: string; // e.g., "abate by/from"
   exampleSentence: string;
   synonyms: string[];
   antonyms: string[];

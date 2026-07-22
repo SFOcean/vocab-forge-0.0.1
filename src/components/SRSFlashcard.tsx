@@ -144,7 +144,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
         >
           {/* FRONT SIDE */}
           <div
-            className={`w-full min-h-[400px] sm:min-h-[460px] rounded-3xl p-6 sm:p-8 glass-panel border border-slate-700/60 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden group-hover:border-indigo-500/40 transition-colors ${
+            className={`w-full min-h-[400px] sm:min-h-[460px] rounded-3xl p-5 sm:p-8 glass-panel border border-slate-700/60 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden group-hover:border-indigo-500/40 transition-colors ${
               isFlipped ? 'pointer-events-none' : ''
             }`}
           >
@@ -244,7 +244,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 
           {/* BACK SIDE */}
           <div
-            className={`w-full min-h-[400px] sm:min-h-[460px] rounded-3xl p-6 sm:p-8 glass-panel border border-indigo-500/40 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden rotate-y-180 ${
+            className={`w-full min-h-[400px] sm:min-h-[460px] rounded-3xl p-5 sm:p-8 glass-panel border border-indigo-500/40 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden rotate-y-180 ${
               !isFlipped ? 'pointer-events-none' : ''
             }`}
           >
@@ -293,6 +293,24 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                   </p>
                 )}
               </div>
+
+              {/* Related Forms & Preposition Grid */}
+              {(word.relatedForms || word.preposition) && (
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  {word.relatedForms && (
+                    <div className="bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+                      <span className="font-bold text-slate-400 block mb-0.5 text-[10px] uppercase">Related Forms</span>
+                      <span className="text-indigo-200">{word.relatedForms}</span>
+                    </div>
+                  )}
+                  {word.preposition && (
+                    <div className="bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+                      <span className="font-bold text-slate-400 block mb-0.5 text-[10px] uppercase">Preposition</span>
+                      <span className="text-teal-300">{word.preposition}</span>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Contextual Sentence with Highlight */}
               <div>

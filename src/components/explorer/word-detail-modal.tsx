@@ -120,6 +120,24 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({ word, progress
             )}
           </div>
 
+          {/* Related Forms & Preposition Grid */}
+          {(word.relatedForms || word.preposition) && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {word.relatedForms && (
+                <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
+                  <span className="font-bold text-slate-400 block mb-1 text-[10px] uppercase">Related Forms</span>
+                  <span className="text-indigo-300 font-medium">{word.relatedForms}</span>
+                </div>
+              )}
+              {word.preposition && (
+                <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
+                  <span className="font-bold text-slate-400 block mb-1 text-[10px] uppercase">Preposition</span>
+                  <span className="text-teal-300 font-medium">{word.preposition}</span>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Example Sentence */}
           <div className="p-3.5 rounded-2xl bg-indigo-950/20 border border-indigo-500/20">
             <span className="font-bold text-indigo-300 block mb-1">Contextual Usage</span>

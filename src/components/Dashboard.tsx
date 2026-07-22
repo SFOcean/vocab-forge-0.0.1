@@ -38,11 +38,12 @@ import {
 import { isDueForReview, calculateNextReview, saveWordProgress, Rating } from '@/lib/srs';
 import { SRSFlashcard } from '@/components/SRSFlashcard';
 import { QuizHub } from '@/components/quiz/quiz-hub';
+import { ClusterExplorer } from '@/components/ClusterExplorer';
 import { WordDetailModal } from '@/components/explorer/word-detail-modal';
 import { AddWordModal } from '@/components/explorer/add-word-modal';
 
 export const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'srs' | 'quiz' | 'library'>('srs');
+  const [activeTab, setActiveTab] = useState<'srs' | 'clusters' | 'quiz' | 'library'>('srs');
   const [words, setWords] = useState<VocabWord[]>(INITIAL_WORDS);
   const [progressMap, setProgressMap] = useState<Record<string, UserProgress>>({});
   const [stats, setStats] = useState<UserStats>({
@@ -320,8 +321,8 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. TAB SWITCHER */}
-      <div className="flex items-center gap-2 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800 max-w-fit">
+      {/* 2. PRIMARY TAB SWITCHER */}
+      <div className="flex flex-wrap items-center gap-2 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800">
         <button
           onClick={() => setActiveTab('srs')}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
@@ -332,6 +333,18 @@ export const Dashboard: React.FC = () => {
         >
           <BookOpen className="w-4 h-4" />
           <span>SRS Review Queue ({dueTodayCount})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('clusters')}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            activeTab === 'clusters'
+              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/20'
+              : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+          }`}
+        >
+          <Layers className="w-4 h-4 text-cyan-400" />
+          <span>Cluster & Root Explorer</span>
         </button>
 
         <button
@@ -355,7 +368,7 @@ export const Dashboard: React.FC = () => {
           }`}
         >
           <Search className="w-4 h-4" />
-          <span>Word Library & Root Clusters</span>
+          <span>Word Library & Filter Search</span>
         </button>
       </div>
 
@@ -397,7 +410,16 @@ export const Dashboard: React.FC = () => {
           </div>
         )}
 
-        {/* TAB 2: EXAM QUIZ */}
+        {/* TAB 2: CLUSTER & ROOT EXPLORER */}
+        {activeTab === 'clusters' && (
+          <ClusterExplorer
+            words={words}
+            progressMap={progressMap}
+            onProgressUpdate={refreshData}
+          />
+        )}
+
+        {/* TAB 3: EXAM QUIZ */}
         {activeTab === 'quiz' && (
           <QuizHub
             words={words}
@@ -416,17 +438,17 @@ export const Dashboard: React.FC = () => {
           />
         )}
 
-        {/* TAB 3: WORD LIBRARY & ROOT SEARCH */}
+        {/* TAB 4: WORD LIBRARY & SEARCH */}
         {activeTab === 'library' && (
           <div className="space-y-6">
             {/* Header & Add Button */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <h3 className="text-xl font-bold font-heading text-white">
-                  Word Library, Root Families & Semantic Clusters
+                  Word Library & Search Directory
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Filter vocabulary by shared Latin/Greek roots (e.g. MAL, BENE, LOQU) and thematic clusters
+                  Filter vocabulary by shared Latin/Greek roots, clusters, parts of speech & exam tags
                 </p>
               </div>
 

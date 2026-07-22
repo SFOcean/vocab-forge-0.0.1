@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Volume2, RotateCw, Sparkles, HelpCircle, BookOpen, Layers, GitBranch } from 'lucide-react';
+import { Volume2, RotateCw, Sparkles, HelpCircle, BookOpen, Layers, GitBranch, KeyRound } from 'lucide-react';
 import { VocabWord } from '@/types/vocab';
 import { Rating } from '@/lib/srs';
 
@@ -134,7 +134,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 
       {/* 3D Perspective Card Container */}
       <div
-        className="w-full min-h-[380px] sm:min-h-[440px] perspective-1000 cursor-pointer group"
+        className="w-full min-h-[400px] sm:min-h-[460px] perspective-1000 cursor-pointer group"
         onClick={handleFlip}
       >
         <motion.div
@@ -144,13 +144,26 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
         >
           {/* FRONT SIDE */}
           <div
-            className={`w-full min-h-[380px] sm:min-h-[440px] rounded-3xl p-6 sm:p-8 glass-panel border border-slate-700/60 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden group-hover:border-indigo-500/40 transition-colors ${
+            className={`w-full min-h-[400px] sm:min-h-[460px] rounded-3xl p-6 sm:p-8 glass-panel border border-slate-700/60 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden group-hover:border-indigo-500/40 transition-colors ${
               isFlipped ? 'pointer-events-none' : ''
             }`}
           >
-            {/* Top Row: Tags & Semantic Cluster */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
+            {/* Top Root Banner Badge */}
+            <div className="space-y-2">
+              <div className="w-full py-1.5 px-3 rounded-xl bg-gradient-to-r from-purple-950/60 via-slate-900 to-cyan-950/60 border border-indigo-500/30 flex items-center justify-between text-[11px] font-semibold text-slate-200">
+                <span className="flex items-center gap-1.5 text-purple-300">
+                  <GitBranch className="w-3.5 h-3.5 text-purple-400" />
+                  <span>[ {word.rootFamily || word.root || 'Latin Root'} ]</span>
+                </span>
+                <span className="text-slate-500">&bull;</span>
+                <span className="flex items-center gap-1.5 text-cyan-300">
+                  <Layers className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Cluster: {word.cluster || 'General'}</span>
+                </span>
+              </div>
+
+              {/* Tags row */}
+              <div className="flex items-center justify-between pt-1">
                 <div className="flex flex-wrap gap-1.5">
                   {word.tags.map((tag) => (
                     <span
@@ -168,13 +181,6 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                   <BookOpen className="w-4 h-4" />
                 </div>
               </div>
-
-              {word.cluster && (
-                <div className="flex items-center gap-1.5 text-[11px] text-cyan-300 font-semibold bg-cyan-500/10 px-2.5 py-0.5 rounded-lg border border-cyan-500/20 max-w-fit">
-                  <Layers className="w-3 h-3 text-cyan-400" />
-                  <span>Cluster: {word.cluster}</span>
-                </div>
-              )}
             </div>
 
             {/* Middle Section: Word, Phonetic, Audio */}
@@ -212,14 +218,11 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 text-xs font-semibold border border-purple-500/20 transition-all hover:scale-105"
                     >
                       <HelpCircle className="w-3.5 h-3.5" />
-                      <span>Reveal Root Family</span>
+                      <span>Reveal Etymology Hint</span>
                     </button>
                   ) : (
                     <div className="inline-block px-4 py-2 rounded-xl bg-purple-950/40 border border-purple-500/30 text-purple-200 text-xs font-semibold animate-fadeIn">
-                      <div>Root: <span className="text-cyan-300">{word.root}</span></div>
-                      {word.rootFamily && (
-                        <div className="text-[11px] text-purple-300 mt-0.5">{word.rootFamily}</div>
-                      )}
+                      <div>Root Breakdown: <span className="text-cyan-300 font-bold">{word.root}</span></div>
                     </div>
                   )}
                 </div>
@@ -241,7 +244,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 
           {/* BACK SIDE */}
           <div
-            className={`w-full min-h-[380px] sm:min-h-[440px] rounded-3xl p-6 sm:p-8 glass-panel border border-indigo-500/40 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden rotate-y-180 ${
+            className={`w-full min-h-[400px] sm:min-h-[460px] rounded-3xl p-6 sm:p-8 glass-panel border border-indigo-500/40 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden rotate-y-180 ${
               !isFlipped ? 'pointer-events-none' : ''
             }`}
           >
@@ -262,6 +265,20 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 
             {/* Back Content Details */}
             <div className="space-y-3.5 my-auto py-2">
+              {/* VISUAL ANCHOR: Highlighting Root Meaning Prominently */}
+              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-purple-950/70 via-slate-900 to-indigo-950/70 border border-purple-500/40 shadow-lg shadow-purple-500/10 text-xs">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                    <KeyRound className="w-4 h-4 text-cyan-400 animate-pulse" />
+                    Etymology Visual Anchor
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-semibold">{word.rootFamily}</span>
+                </div>
+                <div className="text-sm font-extrabold text-cyan-300 bg-slate-950/60 p-2 rounded-xl border border-purple-500/20 mt-1">
+                  Root Structure: {word.root}
+                </div>
+              </div>
+
               {/* Definition */}
               <div>
                 <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider mb-1">
@@ -270,26 +287,6 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                 <p className="text-base text-slate-100 font-medium leading-relaxed">
                   {word.definition}
                 </p>
-              </div>
-
-              {/* Root Family & Cluster Breakdown */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                {word.rootFamily && (
-                  <div className="p-2.5 rounded-xl bg-purple-950/30 border border-purple-500/20">
-                    <span className="font-bold text-purple-300 flex items-center gap-1">
-                      <GitBranch className="w-3 h-3 text-purple-400" /> Root Family:
-                    </span>
-                    <span className="text-slate-200 block mt-0.5">{word.rootFamily}</span>
-                  </div>
-                )}
-                {word.cluster && (
-                  <div className="p-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/20">
-                    <span className="font-bold text-cyan-300 flex items-center gap-1">
-                      <Layers className="w-3 h-3 text-cyan-400" /> Cluster Group:
-                    </span>
-                    <span className="text-slate-200 block mt-0.5">{word.cluster}</span>
-                  </div>
-                )}
               </div>
 
               {/* Contextual Sentence with Highlight */}

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, Volume2, Sparkles, CheckCircle2, Flame, BookOpen, Clock } from 'lucide-react';
+import { X, Volume2, Sparkles, CheckCircle2, Flame, GitBranch, Layers, Clock } from 'lucide-react';
 import { VocabWord, UserProgress } from '@/types/vocab';
 import { getDaysUntilNextReview } from '@/lib/srs';
 
@@ -27,6 +27,7 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({ word, progress
     if (tag.includes('Smart 1')) return 'tag-ws1';
     if (tag.includes('Smart 2')) return 'tag-ws2';
     if (tag.includes('GRE')) return 'tag-gre';
+    if (tag.includes('Yield')) return 'bg-amber-500/15 text-amber-300 border border-amber-500/30';
     return 'tag-bcs';
   };
 
@@ -91,13 +92,27 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({ word, progress
             <p className="text-sm text-slate-100 font-medium leading-relaxed">{word.definition}</p>
           </div>
 
-          {/* Root Etymology */}
-          {word.root && (
-            <div className="p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/20 text-purple-200">
-              <span className="font-bold text-purple-300 block mb-0.5">Etymology & Root Origin</span>
-              <span>{word.root}</span>
-            </div>
-          )}
+          {/* Root Family & Cluster Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {word.rootFamily && (
+              <div className="p-3 rounded-2xl bg-purple-950/30 border border-purple-500/20 text-purple-200">
+                <span className="font-bold text-purple-300 flex items-center gap-1 mb-0.5">
+                  <GitBranch className="w-3.5 h-3.5 text-purple-400" /> Root Family
+                </span>
+                <span className="text-slate-200">{word.rootFamily}</span>
+                <div className="text-[10px] text-purple-300/80 mt-1 font-mono">Root Origin: {word.root}</div>
+              </div>
+            )}
+
+            {word.cluster && (
+              <div className="p-3 rounded-2xl bg-cyan-950/30 border border-cyan-500/20 text-cyan-200">
+                <span className="font-bold text-cyan-300 flex items-center gap-1 mb-0.5">
+                  <Layers className="w-3.5 h-3.5 text-cyan-400" /> Semantic Cluster
+                </span>
+                <span className="text-slate-200">{word.cluster}</span>
+              </div>
+            )}
+          </div>
 
           {/* Example Sentence */}
           <div className="p-3.5 rounded-2xl bg-indigo-950/20 border border-indigo-500/20">

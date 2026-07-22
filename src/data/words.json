@@ -6,10 +6,12 @@
     "partOfSpeech": "noun",
     "definition": "A departure from what is normal, usual, or expected, typically one that is unwelcome.",
     "root": "AB (away) + ERRARE (to wander)",
+    "rootFamily": "Latin Root: AB / ABS (away from, off)",
+    "cluster": "Irregularity & Deviation",
     "exampleSentence": "The sudden drop in sales was an ___ that surprised the entire analytics team.",
     "synonyms": ["anomaly", "deviation", "divergence", "peculiarity"],
     "antonyms": ["conformity", "normality", "regularity"],
-    "tags": ["Word Smart 1", "GRE High-Frequency"]
+    "tags": ["Word Smart 1", "GRE High-Frequency", "IBA High-Yield"]
   },
   {
     "id": "ws-002",
@@ -18,10 +20,12 @@
     "partOfSpeech": "adjective",
     "definition": "Well-meaning and kindly; serving a charitable rather than a profit-making purpose.",
     "root": "BENE (well/good) + VOL (to wish)",
+    "rootFamily": "Latin Root: BENE / BON (good, well)",
+    "cluster": "Kindness & Altruism",
     "exampleSentence": "The organization received a large donation from a ___ anonymous benefactor.",
     "synonyms": ["charitable", "magnanimous", "altruistic", "benign"],
     "antonyms": ["malevolent", "spiteful", "miserly"],
-    "tags": ["Word Smart 1", "BCS Direct"]
+    "tags": ["Word Smart 1", "BCS Direct", "IBA High-Yield"]
   },
   {
     "id": "ws-003",
@@ -30,10 +34,12 @@
     "partOfSpeech": "adjective",
     "definition": "Given to sudden and unaccountable changes of mood or behavior; unpredictable.",
     "root": "CAPRA (goat - leaping unpredictably)",
+    "rootFamily": "Latin Root: CAPRA (head/movement)",
+    "cluster": "Changeability & Impulsiveness",
     "exampleSentence": "The stock market can be extremely ___, fluctuating wildly based on subtle rumors.",
     "synonyms": ["fickle", "whimsical", "volatile", "impulsive"],
     "antonyms": ["steadfast", "predictable", "constant"],
-    "tags": ["Word Smart 1", "GRE High-Frequency"]
+    "tags": ["Word Smart 1", "GRE High-Frequency", "IBA High-Yield"]
   },
   {
     "id": "ws-004",
@@ -42,6 +48,8 @@
     "partOfSpeech": "adjective",
     "definition": "Inclined to lay down principles as incontrovertibly true, without considering other opinions.",
     "root": "DOGMA (opinion/tenet)",
+    "rootFamily": "Greek Root: DOGMA / DOC (teach, belief)",
+    "cluster": "Stubbornness & Opinions",
     "exampleSentence": "A good researcher must remain open to new evidence rather than being rigidly ___.",
     "synonyms": ["doctrinaire", "opinionated", "imperious", "adamant"],
     "antonyms": ["open-minded", "flexible", "pragmatic"],
@@ -54,10 +62,12 @@
     "partOfSpeech": "adjective",
     "definition": "Lasting for a very short time; fleeting and transitory.",
     "root": "EPI (upon) + HEMERA (day)",
+    "rootFamily": "Greek Root: HEMERA (day/time)",
+    "cluster": "Transience & Short Duration",
     "exampleSentence": "Fame in the digital age is often ___, fading as quickly as it arrives.",
     "synonyms": ["transient", "fleeting", "evanescent", "momentary"],
     "antonyms": ["perpetual", "enduring", "eternal"],
-    "tags": ["Word Smart 1", "BCS Direct"]
+    "tags": ["Word Smart 1", "BCS Direct", "IBA High-Yield"]
   },
   {
     "id": "ws-006",
@@ -66,6 +76,8 @@
     "partOfSpeech": "adjective",
     "definition": "Very attentive to and concerned about accuracy and detail; hard to please.",
     "root": "FASTIDIUM (loathing/disgust)",
+    "rootFamily": "Latin Root: FAST (disgust, meticulousness)",
+    "cluster": "Perfectionism & Care",
     "exampleSentence": "The auditor was so ___ that she noticed a two-cent discrepancy in the financial report.",
     "synonyms": ["meticulous", "scrupulous", "painstaking", "finicky"],
     "antonyms": ["careless", "sloppy", "lax"],
@@ -78,10 +90,12 @@
     "partOfSpeech": "adjective",
     "definition": "Excessively talkative, especially on trivial matters.",
     "root": "GARRIRE (to chatter)",
+    "rootFamily": "Latin Root: GARR / LOQU (talk, chatter)",
+    "cluster": "Speech & Talkativeness",
     "exampleSentence": "The ___ passenger in the next seat talked continuously for the entire three-hour flight.",
     "synonyms": ["loquacious", "voluble", "verbose", "chatty"],
     "antonyms": ["taciturn", "reticent", "concise"],
-    "tags": ["Word Smart 1", "BCS Direct"]
+    "tags": ["Word Smart 1", "BCS Direct", "IBA High-Yield"]
   },
   {
     "id": "ws-008",
@@ -90,6 +104,8 @@
     "partOfSpeech": "noun",
     "definition": "A lengthy and aggressive speech or tirade.",
     "root": "HARIANG (ring/assembly speech)",
+    "rootFamily": "Germanic/French Root: HARI (assembly rant)",
+    "cluster": "Criticism & Aggressive Speech",
     "exampleSentence": "Instead of constructive feedback, the team received a hour-long ___ from the manager.",
     "synonyms": ["tirade", "diatribe", "rant", "polemic"],
     "antonyms": ["encomium", "panegyric", "tribute"],
@@ -102,10 +118,12 @@
     "partOfSpeech": "noun",
     "definition": "A person who attacks cherished beliefs or established institutions.",
     "root": "EIKON (image) + KLASTES (breaker)",
+    "rootFamily": "Greek Root: EIKON / KLAST (image breaking)",
+    "cluster": "Rebellion & Tradition Breaking",
     "exampleSentence": "As an technological ___, he constantly challenged traditional business models.",
     "synonyms": ["rebel", "heretic", "dissident", "maverick"],
     "antonyms": ["conformist", "traditionalist"],
-    "tags": ["Word Smart 2", "GRE High-Frequency"]
+    "tags": ["Word Smart 2", "GRE High-Frequency", "IBA High-Yield"]
   },
   {
     "id": "ws-010",
@@ -114,6 +132,8 @@
     "partOfSpeech": "adjective",
     "definition": "Having, showing, or done with good judgment or sense.",
     "root": "JUDEX (judge)",
+    "rootFamily": "Latin Root: JUD / JUR (law, judge)",
+    "cluster": "Wisdom & Prudence",
     "exampleSentence": "A ___ use of company resources saved the startup from early bankruptcy.",
     "synonyms": ["prudent", "shrewd", "astute", "discreet"],
     "antonyms": ["imprudent", "foolish", "rash"],
@@ -126,6 +146,8 @@
     "partOfSpeech": "adjective",
     "definition": "Apathetic, sluggish, and lacking energy or enthusiasm.",
     "root": "LETHE (forgetfulness) + ARGOS (idle)",
+    "rootFamily": "Greek Root: LETHE / ARG (forgetfulness, inactivity)",
+    "cluster": "Sluggishness & Apathy",
     "exampleSentence": "Heavy meals during lunch make employees feel ___ during afternoon hours.",
     "synonyms": ["torpid", "sluggish", "somnolent", "indolent"],
     "antonyms": ["energetic", "vigorous", "vivacious"],
@@ -138,10 +160,12 @@
     "partOfSpeech": "adjective",
     "definition": "Having or showing a wish to do evil to others.",
     "root": "MAL (bad/evil) + VOL (to wish)",
+    "rootFamily": "Latin Root: MAL / MIS / DIS (bad, evil)",
+    "cluster": "Hostility & Harm",
     "exampleSentence": "The villain’s ___ plot was uncovered right before it could be executed.",
     "synonyms": ["malicious", "spiteful", "vindictive", "hostile"],
     "antonyms": ["benevolent", "charitable", "kind"],
-    "tags": ["Word Smart 1", "BCS Direct"]
+    "tags": ["Word Smart 1", "BCS Direct", "IBA High-Yield"]
   },
   {
     "id": "ws-013",
@@ -150,6 +174,8 @@
     "partOfSpeech": "adjective",
     "definition": "Wicked, villainous, or criminal in nature.",
     "root": "NE (not) + FAS (divine law)",
+    "rootFamily": "Latin Root: NE / FAS (wicked, contrary to law)",
+    "cluster": "Hostility & Harm",
     "exampleSentence": "Cybersecurity experts work around the clock to block ___ hacking attempts.",
     "synonyms": ["heinous", "villainous", "iniquitous", "depraved"],
     "antonyms": ["virtuous", "honorable", "righteous"],
@@ -162,10 +188,12 @@
     "partOfSpeech": "verb",
     "definition": "To render obscure, unclear, or unintelligible, intentionally.",
     "root": "OB (over) + FUSCARE (to make dark)",
+    "rootFamily": "Latin Root: FUSC / OB (darken, obscure)",
+    "cluster": "Deception & Obscurity",
     "exampleSentence": "The politician tried to ___ the issue by using complex jargon and evasive answers.",
     "synonyms": ["befog", "cloud", "muddle", "complicate"],
     "antonyms": ["clarify", "elucidate", "simplify"],
-    "tags": ["Word Smart 2", "GRE High-Frequency"]
+    "tags": ["Word Smart 2", "GRE High-Frequency", "IBA High-Yield"]
   },
   {
     "id": "ws-015",
@@ -174,10 +202,12 @@
     "partOfSpeech": "adjective",
     "definition": "Dealing with things sensibly and realistically based on practical considerations.",
     "root": "PRAGMA (deed/fact)",
+    "rootFamily": "Greek Root: PRAGMA / PRACT (action, deed)",
+    "cluster": "Practicality & Realism",
     "exampleSentence": "We need a ___ solution to this bug rather than an overly complex theoretical fix.",
     "synonyms": ["practical", "utilitarian", "sensible", "expedient"],
     "antonyms": ["idealistic", "impractical", "quixotic"],
-    "tags": ["Word Smart 1", "BCS Direct"]
+    "tags": ["Word Smart 1", "BCS Direct", "IBA High-Yield"]
   },
   {
     "id": "ws-016",
@@ -186,6 +216,8 @@
     "partOfSpeech": "adjective",
     "definition": "Exceedingly idealistic; unrealistic and impractical.",
     "root": "DON QUIXOTE (fictional character)",
+    "rootFamily": "Literary Origin: QUIXOTE (idealistic, visionary)",
+    "cluster": "Idealism & Impracticality",
     "exampleSentence": "His plan to eliminate all software bugs overnight was hopelessly ___.",
     "synonyms": ["idealistic", "visionary", "impractical", "chimerical"],
     "antonyms": ["pragmatic", "realistic", "practical"],
@@ -198,10 +230,12 @@
     "partOfSpeech": "adjective",
     "definition": "Not revealing one's thoughts or feelings readily; reserved.",
     "root": "RE (again) + TACERE (to be silent)",
+    "rootFamily": "Latin Root: TAC / SIL (silent, quiet)",
+    "cluster": "Speech & Silence",
     "exampleSentence": "She was unusually ___ about her past accomplishments during the interview.",
     "synonyms": ["reserved", "taciturn", "uncommunicative", "introverted"],
     "antonyms": ["garrulous", "frank", "extroverted"],
-    "tags": ["Word Smart 1", "GRE High-Frequency"]
+    "tags": ["Word Smart 1", "GRE High-Frequency", "IBA High-Yield"]
   },
   {
     "id": "ws-018",
@@ -210,10 +244,12 @@
     "partOfSpeech": "noun",
     "definition": "A person who acts obsequiously toward someone important in order to gain advantage.",
     "root": "SYKON (fig) + PHANTEIN (to show)",
+    "rootFamily": "Greek Root: PHAN / SYKO (flattery, showing)",
+    "cluster": "Flattery & Obsequiousness",
     "exampleSentence": "The CEO was surrounded by ___s who never dared to criticize his decisions.",
     "synonyms": ["flatterer", "toady", "fawning puppet", "suck-up"],
     "antonyms": ["critic", "detractor"],
-    "tags": ["Word Smart 1", "GRE High-Frequency"]
+    "tags": ["Word Smart 1", "GRE High-Frequency", "IBA High-Yield"]
   },
   {
     "id": "ws-019",
@@ -222,10 +258,12 @@
     "partOfSpeech": "adjective",
     "definition": "Reserved or uncommunicative in speech; saying little.",
     "root": "TACERE (to be silent)",
+    "rootFamily": "Latin Root: TAC / SIL (silent, quiet)",
+    "cluster": "Speech & Silence",
     "exampleSentence": "The lead engineer was a ___ man who preferred letting his code speak for itself.",
     "synonyms": ["untalkative", "reticent", "laconic", "silent"],
     "antonyms": ["loquacious", "garrulous", "verbose"],
-    "tags": ["Word Smart 2", "BCS Direct"]
+    "tags": ["Word Smart 2", "BCS Direct", "IBA High-Yield"]
   },
   {
     "id": "ws-020",
@@ -234,6 +272,8 @@
     "partOfSpeech": "verb",
     "definition": "To regard with great respect or revere.",
     "root": "VENUS (love/reverence)",
+    "rootFamily": "Latin Root: VENER / REVER (awe, deep respect)",
+    "cluster": "Kindness & Praise",
     "exampleSentence": "In many Asian cultures, younger generations are taught to ___ their elders.",
     "synonyms": ["revere", "reverence", "worship", "esteem"],
     "antonyms": ["despise", "execrate", "disparage"],

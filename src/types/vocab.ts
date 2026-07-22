@@ -1,14 +1,21 @@
 export type PartOfSpeech = 'noun' | 'verb' | 'adjective' | 'adverb';
 
-export type WordTag = 'Word Smart 1' | 'Word Smart 2' | 'GRE High-Frequency' | 'BCS Direct';
+export type WordTag =
+  | 'Word Smart 1'
+  | 'Word Smart 2'
+  | 'GRE High-Frequency'
+  | 'BCS Direct'
+  | 'IBA High-Yield';
 
 export interface VocabWord {
   id: string;
   word: string;
   phonetic: string;
-  partOfSpeech: PartOfSpeech;
+  partOfSpeech: string;
   definition: string;
   root: string; // e.g., "MAL (bad/evil)"
+  rootFamily: string; // e.g., "Latin Root: MAL / MIS / DIS"
+  cluster: string; // Thematic group, e.g., "Hostility & Harm", "Speech & Talkativeness"
   exampleSentence: string;
   synonyms: string[];
   antonyms: string[];
@@ -62,8 +69,4 @@ export interface UserStats {
   totalQuizzesTaken: number;
 }
 
-export type RatingGrade = 0 | 3 | 4 | 5; 
-// 0: Again (Fail, reset)
-// 3: Hard (Pass with difficulty)
-// 4: Good (Pass with normal hesitation)
-// 5: Easy (Perfect quick recall)
+export type RatingGrade = 0 | 3 | 4 | 5;

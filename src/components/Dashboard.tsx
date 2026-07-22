@@ -14,10 +14,19 @@ import {
   Volume2,
   Plus,
   RefreshCw,
+  GitBranch,
   Award,
 } from 'lucide-react';
 import { VocabWord, UserProgress, UserStats, QuizMode } from '@/types/vocab';
-import { INITIAL_WORDS, searchWords, filterWordsByTag } from '@/data/words';
+import {
+  INITIAL_WORDS,
+  searchWords,
+  filterWordsByTag,
+  filterWordsByCluster,
+  filterWordsByRootFamily,
+  getAllClusters,
+  getAllRootFamilies,
+} from '@/data/words';
 import {
   loadUserProgress,
   loadUserStats,
@@ -51,6 +60,8 @@ export const Dashboard: React.FC = () => {
   // Library / Search state
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('All');
+  const [selectedCluster, setSelectedCluster] = useState<string>('All');
+  const [selectedRootFamily, setSelectedRootFamily] = useState<string>('All');
   const [selectedPos, setSelectedPos] = useState<string>('All');
   const [selectedWord, setSelectedWord] = useState<VocabWord | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
@@ -127,9 +138,15 @@ export const Dashboard: React.FC = () => {
   const ws2Mastered = ws2Words.filter((w) => progressMap[w.id]?.status === 'mastered').length;
   const ws2Pct = ws2Words.length > 0 ? Math.round((ws2Mastered / ws2Words.length) * 100) : 0;
 
+  // Filter options lists
+  const availableClusters = getAllClusters(words);
+  const availableRootFamilies = getAllRootFamilies(words);
+
   // Filtered library words
   let libraryWords = searchWords(searchQuery, words);
   libraryWords = filterWordsByTag(selectedTag, libraryWords);
+  libraryWords = filterWordsByCluster(selectedCluster, libraryWords);
+  libraryWords = filterWordsByRootFamily(selectedRootFamily, libraryWords);
   if (selectedPos !== 'All') {
     libraryWords = libraryWords.filter((w) => w.partOfSpeech === selectedPos);
   }
@@ -138,6 +155,7 @@ export const Dashboard: React.FC = () => {
     if (tag.includes('Smart 1')) return 'tag-ws1';
     if (tag.includes('Smart 2')) return 'tag-ws2';
     if (tag.includes('GRE')) return 'tag-gre';
+    if (tag.includes('Yield')) return 'bg-amber-500/15 text-amber-300 border border-amber-500/30';
     return 'tag-bcs';
   };
 
@@ -337,7 +355,7 @@ export const Dashboard: React.FC = () => {
           }`}
         >
           <Search className="w-4 h-4" />
-          <span>Word Library & Root Search</span>
+          <span>Word Library & Root Clusters</span>
         </button>
       </div>
 
@@ -405,10 +423,10 @@ export const Dashboard: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <h3 className="text-xl font-bold font-heading text-white">
-                  Word Library & Etymology Root Directory
+                  Word Library, Root Families & Semantic Clusters
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Filterable dataset with Latin/Greek roots, parts of speech & exam tags
+                  Filter vocabulary by shared Latin/Greek roots (e.g. MAL, BENE, LOQU) and thematic clusters
                 </p>
               </div>
 
@@ -429,40 +447,79 @@ export const Dashboard: React.FC = () => {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by word, Latin/Greek root (e.g. MAL, BENE), definition, or synonym..."
+                  placeholder="Search by word, root, root family (e.g. MAL / MIS), cluster group (e.g. Speech), or definition..."
                   className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-                {/* Word Smart Tag Pills */}
+                {/* Exam Tag Pills */}
                 <div className="flex flex-wrap items-center gap-1.5">
-                  {['All', 'Word Smart 1', 'Word Smart 2', 'GRE High-Frequency', 'BCS Direct'].map(
-                    (tag) => (
-                      <button
-                        key={tag}
-                        onClick={() => setSelectedTag(tag)}
-                        className={`px-3 py-1 rounded-full font-semibold transition-all ${
-                          selectedTag === tag
-                            ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30'
-                            : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
-                        }`}
-                      >
-                        {tag}
-                      </button>
-                    )
-                  )}
+                  {[
+                    'All',
+                    'Word Smart 1',
+                    'Word Smart 2',
+                    'GRE High-Frequency',
+                    'BCS Direct',
+                    'IBA High-Yield',
+                  ].map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => setSelectedTag(tag)}
+                      className={`px-3 py-1 rounded-full font-semibold transition-all ${
+                        selectedTag === tag
+                          ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30'
+                          : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                      }`}
+                    >
+                      {tag}
+                    </button>
+                  ))}
                 </div>
 
-                {/* Part of Speech Select */}
-                <div className="flex items-center gap-2">
-                  <span className="text-slate-400 font-semibold">Part of Speech:</span>
+                {/* Dropdown Filters: Cluster & Root Family */}
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* Semantic Cluster Filter */}
+                  <div className="flex items-center gap-1.5">
+                    <Layers className="w-3.5 h-3.5 text-cyan-400" />
+                    <select
+                      value={selectedCluster}
+                      onChange={(e) => setSelectedCluster(e.target.value)}
+                      className="bg-slate-900 text-white text-xs rounded-lg px-2.5 py-1 border border-slate-800 focus:outline-none focus:border-indigo-500"
+                    >
+                      <option value="All">All Clusters ({availableClusters.length})</option>
+                      {availableClusters.map((cl) => (
+                        <option key={cl} value={cl}>
+                          {cl}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Root Family Filter */}
+                  <div className="flex items-center gap-1.5">
+                    <GitBranch className="w-3.5 h-3.5 text-purple-400" />
+                    <select
+                      value={selectedRootFamily}
+                      onChange={(e) => setSelectedRootFamily(e.target.value)}
+                      className="bg-slate-900 text-white text-xs rounded-lg px-2.5 py-1 border border-slate-800 focus:outline-none focus:border-indigo-500"
+                    >
+                      <option value="All">All Root Families ({availableRootFamilies.length})</option>
+                      {availableRootFamilies.map((rf) => (
+                        <option key={rf} value={rf}>
+                          {rf}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* POS Select */}
                   <select
                     value={selectedPos}
                     onChange={(e) => setSelectedPos(e.target.value)}
                     className="bg-slate-900 text-white text-xs rounded-lg px-2.5 py-1 border border-slate-800 focus:outline-none focus:border-indigo-500"
                   >
-                    <option value="All">All Types</option>
+                    <option value="All">All POS</option>
                     <option value="noun">noun</option>
                     <option value="verb">verb</option>
                     <option value="adjective">adjective</option>
@@ -479,7 +536,8 @@ export const Dashboard: React.FC = () => {
                   <tr className="border-b border-slate-800 bg-slate-900/80 text-slate-400 font-bold uppercase tracking-wider">
                     <th className="py-3.5 px-4">Word / Phonetic</th>
                     <th className="py-3.5 px-4">POS</th>
-                    <th className="py-3.5 px-4">Root Breakdown</th>
+                    <th className="py-3.5 px-4">Semantic Cluster</th>
+                    <th className="py-3.5 px-4">Root Family</th>
                     <th className="py-3.5 px-4">Definition</th>
                     <th className="py-3.5 px-4">Tags</th>
                     <th className="py-3.5 px-4 text-right">SRS Status</th>
@@ -509,7 +567,27 @@ export const Dashboard: React.FC = () => {
                           </span>
                         </td>
                         <td className="py-3 px-4 italic text-slate-300">{word.partOfSpeech}</td>
-                        <td className="py-3 px-4 text-purple-300 font-medium">{word.root}</td>
+                        <td className="py-3 px-4 text-cyan-300 font-medium">
+                          {word.cluster ? (
+                            <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-semibold text-[11px]">
+                              {word.cluster}
+                            </span>
+                          ) : (
+                            <span className="text-slate-500">-</span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-purple-300 font-medium">
+                          {word.rootFamily ? (
+                            <div>
+                              <div className="font-semibold text-purple-300 text-[11px]">
+                                {word.rootFamily}
+                              </div>
+                              <div className="text-[10px] text-slate-400">{word.root}</div>
+                            </div>
+                          ) : (
+                            <span className="text-slate-500">{word.root}</span>
+                          )}
+                        </td>
                         <td className="py-3 px-4 text-slate-200 max-w-xs truncate">
                           {word.definition}
                         </td>

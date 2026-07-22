@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Volume2, RotateCw, Sparkles, HelpCircle, BookOpen } from 'lucide-react';
+import { Volume2, RotateCw, Sparkles, HelpCircle, BookOpen, Layers, GitBranch } from 'lucide-react';
 import { VocabWord } from '@/types/vocab';
 import { Rating } from '@/lib/srs';
 
@@ -41,7 +41,6 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
   // Keyboard Event Listener (Space to flip, 1-4 for ratings)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in an input
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName)) {
         return;
       }
@@ -68,6 +67,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
     if (tag.includes('Smart 1')) return 'tag-ws1';
     if (tag.includes('Smart 2')) return 'tag-ws2';
     if (tag.includes('GRE')) return 'tag-gre';
+    if (tag.includes('Yield')) return 'bg-amber-500/15 text-amber-300 border border-amber-500/30';
     return 'tag-bcs';
   };
 
@@ -134,7 +134,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 
       {/* 3D Perspective Card Container */}
       <div
-        className="w-full min-h-[380px] sm:min-h-[420px] perspective-1000 cursor-pointer group"
+        className="w-full min-h-[380px] sm:min-h-[440px] perspective-1000 cursor-pointer group"
         onClick={handleFlip}
       >
         <motion.div
@@ -144,32 +144,41 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
         >
           {/* FRONT SIDE */}
           <div
-            className={`w-full min-h-[380px] sm:min-h-[420px] rounded-3xl p-6 sm:p-8 glass-panel border border-slate-700/60 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden group-hover:border-indigo-500/40 transition-colors ${
+            className={`w-full min-h-[380px] sm:min-h-[440px] rounded-3xl p-6 sm:p-8 glass-panel border border-slate-700/60 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden group-hover:border-indigo-500/40 transition-colors ${
               isFlipped ? 'pointer-events-none' : ''
             }`}
           >
-            {/* Top Row: Tags */}
-            <div className="flex items-center justify-between">
-              <div className="flex flex-wrap gap-1.5">
-                {word.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${getTagClass(
-                      tag
-                    )}`}
-                  >
-                    {tag}
-                  </span>
-                ))}
+            {/* Top Row: Tags & Semantic Cluster */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-wrap gap-1.5">
+                  {word.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${getTagClass(
+                        tag
+                      )}`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400">
+                  <BookOpen className="w-4 h-4" />
+                </div>
               </div>
 
-              <div className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400">
-                <BookOpen className="w-4 h-4" />
-              </div>
+              {word.cluster && (
+                <div className="flex items-center gap-1.5 text-[11px] text-cyan-300 font-semibold bg-cyan-500/10 px-2.5 py-0.5 rounded-lg border border-cyan-500/20 max-w-fit">
+                  <Layers className="w-3 h-3 text-cyan-400" />
+                  <span>Cluster: {word.cluster}</span>
+                </div>
+              )}
             </div>
 
             {/* Middle Section: Word, Phonetic, Audio */}
-            <div className="text-center my-auto py-6">
+            <div className="text-center my-auto py-4">
               <div className="inline-flex items-center gap-3 mb-2">
                 <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-white tracking-tight">
                   {word.word}
@@ -193,7 +202,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 
               {/* Etymology Hint Toggle */}
               {word.root && (
-                <div className="mt-6">
+                <div className="mt-5">
                   {!showRootHint ? (
                     <button
                       onClick={(e) => {
@@ -203,11 +212,14 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 text-xs font-semibold border border-purple-500/20 transition-all hover:scale-105"
                     >
                       <HelpCircle className="w-3.5 h-3.5" />
-                      <span>Reveal Root Etymology</span>
+                      <span>Reveal Root Family</span>
                     </button>
                   ) : (
                     <div className="inline-block px-4 py-2 rounded-xl bg-purple-950/40 border border-purple-500/30 text-purple-200 text-xs font-semibold animate-fadeIn">
-                      Root Origin: <span className="text-cyan-300">{word.root}</span>
+                      <div>Root: <span className="text-cyan-300">{word.root}</span></div>
+                      {word.rootFamily && (
+                        <div className="text-[11px] text-purple-300 mt-0.5">{word.rootFamily}</div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -215,7 +227,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
             </div>
 
             {/* Bottom Bar Prompt */}
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-400 pt-4 border-t border-slate-800/80">
+            <div className="flex items-center justify-center gap-2 text-xs text-slate-400 pt-3 border-t border-slate-800/80">
               <RotateCw className="w-4 h-4 animate-spin" style={{ animationDuration: '8s' }} />
               <span>
                 Click or press{' '}
@@ -229,7 +241,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 
           {/* BACK SIDE */}
           <div
-            className={`w-full min-h-[380px] sm:min-h-[420px] rounded-3xl p-6 sm:p-8 glass-panel border border-indigo-500/40 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden rotate-y-180 ${
+            className={`w-full min-h-[380px] sm:min-h-[440px] rounded-3xl p-6 sm:p-8 glass-panel border border-indigo-500/40 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden rotate-y-180 ${
               !isFlipped ? 'pointer-events-none' : ''
             }`}
           >
@@ -249,7 +261,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
             </div>
 
             {/* Back Content Details */}
-            <div className="space-y-4 my-auto py-2">
+            <div className="space-y-3.5 my-auto py-2">
               {/* Definition */}
               <div>
                 <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider mb-1">
@@ -260,13 +272,25 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                 </p>
               </div>
 
-              {/* Root Etymology */}
-              {word.root && (
-                <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/20 text-xs">
-                  <span className="font-bold text-purple-300">Root Etymology:</span>{' '}
-                  <span className="text-slate-200">{word.root}</span>
-                </div>
-              )}
+              {/* Root Family & Cluster Breakdown */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                {word.rootFamily && (
+                  <div className="p-2.5 rounded-xl bg-purple-950/30 border border-purple-500/20">
+                    <span className="font-bold text-purple-300 flex items-center gap-1">
+                      <GitBranch className="w-3 h-3 text-purple-400" /> Root Family:
+                    </span>
+                    <span className="text-slate-200 block mt-0.5">{word.rootFamily}</span>
+                  </div>
+                )}
+                {word.cluster && (
+                  <div className="p-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/20">
+                    <span className="font-bold text-cyan-300 flex items-center gap-1">
+                      <Layers className="w-3 h-3 text-cyan-400" /> Cluster Group:
+                    </span>
+                    <span className="text-slate-200 block mt-0.5">{word.cluster}</span>
+                  </div>
+                )}
+              </div>
 
               {/* Contextual Sentence with Highlight */}
               <div>

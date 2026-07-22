@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, Plus, Sparkles } from 'lucide-react';
-import { VocabWord, PartOfSpeech, WordTag } from '@/types/vocab';
+import { VocabWord, WordTag } from '@/types/vocab';
 
 interface AddWordModalProps {
   isOpen: boolean;
@@ -13,9 +13,11 @@ interface AddWordModalProps {
 export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpen, onClose, onAddWord }) => {
   const [word, setWord] = useState('');
   const [phonetic, setPhonetic] = useState('');
-  const [partOfSpeech, setPartOfSpeech] = useState<PartOfSpeech>('adjective');
+  const [partOfSpeech, setPartOfSpeech] = useState<string>('adjective');
   const [definition, setDefinition] = useState('');
   const [root, setRoot] = useState('');
+  const [rootFamily, setRootFamily] = useState('');
+  const [cluster, setCluster] = useState('');
   const [exampleSentence, setExampleSentence] = useState('');
   const [synonymsStr, setSynonymsStr] = useState('');
   const [antonymsStr, setAntonymsStr] = useState('');
@@ -33,7 +35,9 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpen, onClose, onA
       phonetic: phonetic.trim() || `/${word.trim().toLowerCase()}/`,
       partOfSpeech,
       definition: definition.trim(),
-      root: root.trim() || 'Custom Entry',
+      root: root.trim() || 'Custom Root',
+      rootFamily: rootFamily.trim() || 'General Vocabulary',
+      cluster: cluster.trim() || 'General Theme',
       exampleSentence: exampleSentence.trim() || `The student applied the word ${word.trim()} in practice.`,
       synonyms: synonymsStr.split(',').map((s) => s.trim()).filter(Boolean),
       antonyms: antonymsStr.split(',').map((a) => a.trim()).filter(Boolean),
@@ -103,7 +107,7 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpen, onClose, onA
               <label className="block text-slate-300 font-semibold mb-1">Part of Speech</label>
               <select
                 value={partOfSpeech}
-                onChange={(e) => setPartOfSpeech(e.target.value as PartOfSpeech)}
+                onChange={(e) => setPartOfSpeech(e.target.value)}
                 className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-indigo-500"
               >
                 <option value="noun">noun</option>
@@ -126,13 +130,37 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpen, onClose, onA
             />
           </div>
 
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-slate-300 font-semibold mb-1">Root Origin</label>
+              <input
+                type="text"
+                value={root}
+                onChange={(e) => setRoot(e.target.value)}
+                placeholder="MAGNUS (great) + ANIMUS"
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-slate-300 font-semibold mb-1">Root Family</label>
+              <input
+                type="text"
+                value={rootFamily}
+                onChange={(e) => setRootFamily(e.target.value)}
+                placeholder="Latin Root: MAGN / GRAND"
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+          </div>
+
           <div>
-            <label className="block text-slate-300 font-semibold mb-1">Etymology / Root Origin</label>
+            <label className="block text-slate-300 font-semibold mb-1">Semantic Cluster Group</label>
             <input
               type="text"
-              value={root}
-              onChange={(e) => setRoot(e.target.value)}
-              placeholder="e.g. MAGNUS (great) + ANIMUS (soul)"
+              value={cluster}
+              onChange={(e) => setCluster(e.target.value)}
+              placeholder="e.g. Kindness & Altruism, Speech & Silence"
               className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-indigo-500"
             />
           </div>
@@ -175,7 +203,15 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpen, onClose, onA
           <div>
             <label className="block text-slate-300 font-semibold mb-1.5">Exam Tags</label>
             <div className="flex flex-wrap gap-2">
-              {(['Word Smart 1', 'Word Smart 2', 'GRE High-Frequency', 'BCS Direct'] as WordTag[]).map((tag) => (
+              {(
+                [
+                  'Word Smart 1',
+                  'Word Smart 2',
+                  'GRE High-Frequency',
+                  'BCS Direct',
+                  'IBA High-Yield',
+                ] as WordTag[]
+              ).map((tag) => (
                 <button
                   type="button"
                   key={tag}

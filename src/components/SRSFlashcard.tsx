@@ -287,6 +287,11 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                 <p className="text-base text-slate-100 font-medium leading-relaxed">
                   {word.definition}
                 </p>
+                {word.banglaMeaning && (
+                  <p className="text-sm text-indigo-300 font-medium leading-relaxed mt-1">
+                    Bangla: {word.banglaMeaning}
+                  </p>
+                )}
               </div>
 
               {/* Contextual Sentence with Highlight */}

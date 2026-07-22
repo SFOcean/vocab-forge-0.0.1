@@ -90,6 +90,12 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({ word, progress
           <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
             <span className="font-bold uppercase tracking-wider text-slate-400 block mb-1">Definition</span>
             <p className="text-sm text-slate-100 font-medium leading-relaxed">{word.definition}</p>
+            {word.banglaMeaning && (
+              <div className="mt-2 pt-2 border-t border-slate-800">
+                <span className="font-bold uppercase tracking-wider text-indigo-400 block mb-1 text-[10px]">Bangla Meaning</span>
+                <p className="text-sm text-indigo-200 font-medium">{word.banglaMeaning}</p>
+              </div>
+            )}
           </div>
 
           {/* Root Family & Cluster Grid */}

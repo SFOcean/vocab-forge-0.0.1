@@ -224,9 +224,15 @@ export const WordList: React.FC<WordListProps> = ({ words, progressMap, onAddCus
                   <span className="italic font-serif text-slate-300">{word.partOfSpeech}</span>
                 </div>
 
-                <p className="text-xs text-slate-300 font-medium line-clamp-2 mb-3">
+                <p className="text-xs text-slate-300 font-medium line-clamp-2 mb-1">
                   {word.definition}
                 </p>
+                {word.banglaMeaning && (
+                  <p className="text-[11px] text-indigo-300 font-medium mb-3 line-clamp-1">
+                    Bangla: {word.banglaMeaning}
+                  </p>
+                )}
+                {!word.banglaMeaning && <div className="mb-3"></div>}
               </div>
 
               {/* Bottom Card Root & Synonyms */}

@@ -16,6 +16,7 @@ export interface VocabWord {
   root: string; // e.g., "MAL (bad/evil)"
   rootFamily: string; // e.g., "Latin Root: MAL / MIS / DIS"
   cluster: string; // Thematic group, e.g., "Hostility & Harm", "Speech & Talkativeness"
+  banglaMeaning: string;
   exampleSentence: string;
   synonyms: string[];
   antonyms: string[];

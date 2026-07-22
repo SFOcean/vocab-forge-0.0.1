@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Plus, Filter, Volume2, Sparkles, CheckCircle2, Flame, HelpCircle } from 'lucide-react';
+import { Search, Plus, Filter, Volume2, Sparkles, CheckCircle2, Flame, HelpCircle, X } from 'lucide-react';
 import { VocabWord, UserProgress, WordTag } from '@/types/vocab';
 import { searchWords, filterWordsByTag } from '@/data/words';
 import { WordDetailModal } from './word-detail-modal';
@@ -21,6 +21,12 @@ export const WordList: React.FC<WordListProps> = ({ words, progressMap, onAddCus
   const [selectedWord, setSelectedWord] = useState<VocabWord | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
+  // Helper: Count words per exam tag
+  const getTagWordCount = (tag: string) => {
+    if (tag === 'All') return words.length;
+    return words.filter((w) => w.tags.includes(tag as any)).length;
+  };
+
   // Filter & Search pipeline
   let filtered = searchWords(searchQuery, words);
   filtered = filterWordsByTag(selectedTag, filtered);
@@ -32,6 +38,14 @@ export const WordList: React.FC<WordListProps> = ({ words, progressMap, onAddCus
       return p?.status === selectedStatus;
     });
   }
+
+  const isAnyFilterActive = selectedTag !== 'All' || selectedStatus !== 'all' || searchQuery.trim() !== '';
+
+  const clearAllFilters = () => {
+    setSelectedTag('All');
+    setSelectedStatus('all');
+    setSearchQuery('');
+  };
 
   const getTagClass = (tag: string) => {
     if (tag.includes('Smart 1')) return 'tag-ws1';
@@ -51,13 +65,16 @@ export const WordList: React.FC<WordListProps> = ({ words, progressMap, onAddCus
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-6 px-4">
+    <div className="max-w-7xl mx-auto py-6 px-4 space-y-6">
       {/* Top Header & Add Word Button */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-extrabold font-heading text-white flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-cyan-400 animate-pulse" />
-            Word Explorer & Dictionary
+            <span>Word Explorer & Dictionary</span>
+            <span className="px-2.5 py-0.5 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-bold font-mono">
+              {filtered.length} / {words.length} Words
+            </span>
           </h2>
           <p className="text-xs text-slate-400 mt-1">
             Browse all {words.length} Word Smart, GRE & BCS entries with roots, phonetics & SRS status
@@ -74,7 +91,7 @@ export const WordList: React.FC<WordListProps> = ({ words, progressMap, onAddCus
       </div>
 
       {/* Search & Filters Bar */}
-      <div className="glass-card p-4 rounded-2xl mb-6 space-y-3">
+      <div className="glass-card p-4 rounded-2xl space-y-3">
         {/* Search Input */}
         <div className="relative">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
@@ -87,23 +104,34 @@ export const WordList: React.FC<WordListProps> = ({ words, progressMap, onAddCus
           />
         </div>
 
-        {/* Filter Pills */}
+        {/* Filter Pills with Count Badges */}
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
           {/* Tag Pills */}
           <div className="flex flex-wrap items-center gap-1.5">
-            {['All', 'Word Smart 1', 'Word Smart 2', 'GRE High-Frequency', 'BCS Direct'].map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setSelectedTag(tag)}
-                className={`px-3 py-1 rounded-full font-semibold transition-all ${
-                  selectedTag === tag
-                    ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30'
-                    : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
+            {['All', 'Word Smart 1', 'Word Smart 2', 'GRE High-Frequency', 'BCS Direct'].map((tag) => {
+              const count = getTagWordCount(tag);
+              const isSelected = selectedTag === tag;
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setSelectedTag(tag)}
+                  className={`px-3 py-1 rounded-full font-semibold transition-all inline-flex items-center gap-1.5 ${
+                    isSelected
+                      ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30'
+                      : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                  }`}
+                >
+                  <span>{tag}</span>
+                  <span
+                    className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
+                      isSelected ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Status Select */}
@@ -121,6 +149,27 @@ export const WordList: React.FC<WordListProps> = ({ words, progressMap, onAddCus
             </select>
           </div>
         </div>
+      </div>
+
+      {/* Filter Counter Banner */}
+      <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-slate-900 to-purple-950/40 border border-indigo-500/30 text-xs">
+        <div className="flex items-center gap-2 text-slate-200 font-medium">
+          <Filter className="w-4 h-4 text-cyan-400" />
+          <span>
+            Showing <strong className="text-cyan-300 font-bold text-sm">{filtered.length}</strong> of{' '}
+            <strong className="text-white font-bold">{words.length}</strong> words matching your criteria
+          </span>
+        </div>
+
+        {isAnyFilterActive && (
+          <button
+            onClick={clearAllFilters}
+            className="px-3 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 font-semibold text-[11px] flex items-center gap-1 transition-colors"
+          >
+            <X className="w-3.5 h-3.5" />
+            <span>Clear Filters</span>
+          </button>
+        )}
       </div>
 
       {/* Words Grid */}

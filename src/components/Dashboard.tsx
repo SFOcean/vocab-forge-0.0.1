@@ -16,6 +16,7 @@ import {
   RefreshCw,
   GitBranch,
   Award,
+  X,
 } from 'lucide-react';
 import { VocabWord, UserProgress, UserStats, QuizMode } from '@/types/vocab';
 import {
@@ -143,6 +144,12 @@ export const Dashboard: React.FC = () => {
   const availableClusters = getAllClusters(words);
   const availableRootFamilies = getAllRootFamilies(words);
 
+  // Helper: Count words per exam tag
+  const getTagWordCount = (tag: string) => {
+    if (tag === 'All') return words.length;
+    return words.filter((w) => w.tags.includes(tag as any)).length;
+  };
+
   // Filtered library words
   let libraryWords = searchWords(searchQuery, words);
   libraryWords = filterWordsByTag(selectedTag, libraryWords);
@@ -151,6 +158,21 @@ export const Dashboard: React.FC = () => {
   if (selectedPos !== 'All') {
     libraryWords = libraryWords.filter((w) => w.partOfSpeech === selectedPos);
   }
+
+  const isAnyFilterActive =
+    selectedTag !== 'All' ||
+    selectedCluster !== 'All' ||
+    selectedRootFamily !== 'All' ||
+    selectedPos !== 'All' ||
+    searchQuery.trim() !== '';
+
+  const clearAllFilters = () => {
+    setSelectedTag('All');
+    setSelectedCluster('All');
+    setSelectedRootFamily('All');
+    setSelectedPos('All');
+    setSearchQuery('');
+  };
 
   const getTagClass = (tag: string) => {
     if (tag.includes('Smart 1')) return 'tag-ws1';
@@ -444,8 +466,11 @@ export const Dashboard: React.FC = () => {
             {/* Header & Add Button */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h3 className="text-xl font-bold font-heading text-white">
-                  Word Library & Search Directory
+                <h3 className="text-xl font-bold font-heading text-white flex items-center gap-2">
+                  <span>Word Library & Search Directory</span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-bold font-mono">
+                    {libraryWords.length} / {words.length} Words
+                  </span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
                   Filter vocabulary by shared Latin/Greek roots, clusters, parts of speech & exam tags
@@ -475,7 +500,7 @@ export const Dashboard: React.FC = () => {
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-                {/* Exam Tag Pills */}
+                {/* Exam Tag Pills with Word Count Badges */}
                 <div className="flex flex-wrap items-center gap-1.5">
                   {[
                     'All',
@@ -484,19 +509,32 @@ export const Dashboard: React.FC = () => {
                     'GRE High-Frequency',
                     'BCS Direct',
                     'IBA High-Yield',
-                  ].map((tag) => (
-                    <button
-                      key={tag}
-                      onClick={() => setSelectedTag(tag)}
-                      className={`px-3 py-1 rounded-full font-semibold transition-all ${
-                        selectedTag === tag
-                          ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30'
-                          : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
-                      }`}
-                    >
-                      {tag}
-                    </button>
-                  ))}
+                  ].map((tag) => {
+                    const tagCount = getTagWordCount(tag);
+                    const isSelected = selectedTag === tag;
+                    return (
+                      <button
+                        key={tag}
+                        onClick={() => setSelectedTag(tag)}
+                        className={`px-3 py-1 rounded-full font-semibold transition-all inline-flex items-center gap-1.5 ${
+                          isSelected
+                            ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30'
+                            : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                        }`}
+                      >
+                        <span>{tag}</span>
+                        <span
+                          className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
+                            isSelected
+                              ? 'bg-white/20 text-white'
+                              : 'bg-slate-800 text-slate-400'
+                          }`}
+                        >
+                          {tagCount}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
 
                 {/* Dropdown Filters: Cluster & Root Family */}
@@ -549,6 +587,27 @@ export const Dashboard: React.FC = () => {
                   </select>
                 </div>
               </div>
+            </div>
+
+            {/* Active Filter Counter Banner */}
+            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-slate-900 to-purple-950/40 border border-indigo-500/30 text-xs">
+              <div className="flex items-center gap-2 text-slate-200 font-medium">
+                <Filter className="w-4 h-4 text-cyan-400" />
+                <span>
+                  Showing <strong className="text-cyan-300 font-bold text-sm">{libraryWords.length}</strong> of{' '}
+                  <strong className="text-white font-bold">{words.length}</strong> words matching your criteria
+                </span>
+              </div>
+
+              {isAnyFilterActive && (
+                <button
+                  onClick={clearAllFilters}
+                  className="px-3 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 font-semibold text-[11px] flex items-center gap-1 transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                  <span>Clear Filters</span>
+                </button>
+              )}
             </div>
 
             {/* Filterable Table / Card List */}

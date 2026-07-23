@@ -5,6 +5,14 @@
 # next.js
 /.next/
 /out/
+build
+
+# PWA files
+**/public/sw.js
+**/public/workbox-*.js
+**/public/fallback-*.js
+**/public/sw.js.map
+**/public/workbox-*.js.map
 
 # production
 /build

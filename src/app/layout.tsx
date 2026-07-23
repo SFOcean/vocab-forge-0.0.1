@@ -1,9 +1,23 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
+
+export const viewport: Viewport = {
+  themeColor: '#020617',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: 'VocabForge - Word Smart & BCS Vocabulary Mastery App',
   description: 'Master Word Smart 1 & 2 vocabulary using SuperMemo SM-2 Spaced Repetition System for IBA MBA, GRE, and BCS competitive exams.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'VocabForge',
+  },
 };
 
 export default function RootLayout({

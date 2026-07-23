@@ -17,6 +17,7 @@ import {
   GitBranch,
   Award,
   X,
+  Flag,
 } from 'lucide-react';
 import { VocabWord, UserProgress, UserStats, QuizMode } from '@/types/vocab';
 import {
@@ -35,6 +36,7 @@ import {
   updateWordProgress,
   incrementTodayReviewed,
   saveQuizResult,
+  loadErrorReports,
 } from '@/lib/storage';
 import { isDueForReview, calculateNextReview, saveWordProgress, Rating } from '@/lib/srs';
 import { SRSFlashcard } from '@/components/SRSFlashcard';
@@ -477,13 +479,34 @@ export const Dashboard: React.FC = () => {
                 </p>
               </div>
 
-              <button
-                onClick={() => setIsAddModalOpen(true)}
-                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs shadow-md shadow-indigo-500/20 transition-all flex items-center gap-2 shrink-0"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Custom Word</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    const reports = loadErrorReports();
+                    if (reports.length === 0) {
+                      alert('No error reports logged yet.');
+                      return;
+                    }
+                    const blob = new Blob([JSON.stringify(reports, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `vocabforge_error_logs_${new Date().toISOString().split('T')[0]}.json`;
+                    a.click();
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-xs transition-all flex items-center gap-2 shrink-0"
+                >
+                  <Flag className="w-4 h-4 text-rose-400" />
+                  <span>Export Logs</span>
+                </button>
+                <button
+                  onClick={() => setIsAddModalOpen(true)}
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs shadow-md shadow-indigo-500/20 transition-all flex items-center gap-2 shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Custom Word</span>
+                </button>
+              </div>
             </div>
 
             {/* Filter Bar */}

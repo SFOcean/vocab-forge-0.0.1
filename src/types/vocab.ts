@@ -64,6 +64,16 @@ export interface QuizSessionResult {
   accuracy: number;
 }
 
+export interface ErrorReport {
+  id: string;
+  wordId: string;
+  wordText: string;
+  type: 'Wrong Pronunciation' | 'Wrong Bangla Meaning' | 'Wrong English Meaning' | 'Typo' | 'Other';
+  comment: string;
+  timestamp: string;
+}
+
+
 export interface UserStats {
   streakDays: number;
   lastActiveDate: string;

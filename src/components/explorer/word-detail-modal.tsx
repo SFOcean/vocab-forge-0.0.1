@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
-import { X, Volume2, Sparkles, CheckCircle2, Flame, GitBranch, Layers, Clock } from 'lucide-react';
+import React, { useState } from 'react';
+import { Volume2, X, CheckCircle2, Flame, GitBranch, Layers, Clock, Flag } from 'lucide-react';
 import { VocabWord, UserProgress } from '@/types/vocab';
+import { ReportErrorModal } from '../ReportErrorModal';
 import { getDaysUntilNextReview } from '@/lib/srs';
 
 interface WordDetailModalProps {
@@ -12,6 +13,8 @@ interface WordDetailModalProps {
 }
 
 export const WordDetailModal: React.FC<WordDetailModalProps> = ({ word, progress, onClose }) => {
+  const [isReportOpen, setIsReportOpen] = useState(false);
+
   if (!word) return null;
 
   const playAudio = () => {
@@ -36,15 +39,9 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({ word, progress
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
       <div className="glass-panel w-full max-w-xl rounded-3xl border border-indigo-500/30 p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
+        
         {/* Tags & SRS status header */}
-        <div className="flex items-center justify-between mb-4 pr-8">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex flex-wrap gap-1.5">
             {word.tags.map((tag) => (
               <span
@@ -66,21 +63,38 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({ word, progress
         </div>
 
         {/* Word Header */}
-        <div className="mb-6">
-          <div className="inline-flex items-center gap-3">
+        <div className="mb-6 flex items-start justify-between">
+          <div>
             <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">{word.word}</h2>
+            <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
+              <span className="font-mono text-cyan-400">{word.phonetic}</span>
+              <span>•</span>
+              <span className="italic font-serif font-semibold text-slate-300">{word.partOfSpeech}</span>
+            </div>
+          </div>
+          
+          {/* Header Right */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsReportOpen(true)}
+              className="w-10 h-10 rounded-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 flex items-center justify-center transition-colors"
+              title="Report Issue"
+            >
+              <Flag className="w-5 h-5" />
+            </button>
             <button
               onClick={playAudio}
-              className="w-9 h-9 rounded-full bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 transition-colors"
-              title="Pronounce Word"
+              className="w-10 h-10 rounded-full bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 flex items-center justify-center transition-colors"
+              title="Listen Pronunciation"
             >
-              <Volume2 className="w-4 h-4" />
+              <Volume2 className="w-5 h-5" />
             </button>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
-            <span className="font-mono text-cyan-400">{word.phonetic}</span>
-            <span>•</span>
-            <span className="italic font-serif font-semibold text-slate-300">{word.partOfSpeech}</span>
+            <button
+              onClick={onClose}
+              className="w-10 h-10 rounded-full hover:bg-slate-800 text-slate-400 flex items-center justify-center transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
         </div>
 
@@ -177,6 +191,13 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({ word, progress
           )}
         </div>
       </div>
+
+      <ReportErrorModal
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        wordId={word.id}
+        wordText={word.word}
+      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { UserProgress, UserStats, VocabWord, QuizSessionResult } from '@/types/vocab';
+import { UserProgress, UserStats, VocabWord, QuizSessionResult, ErrorReport } from '@/types/vocab';
 import { INITIAL_WORDS } from '@/data/words';
 import { getInitialProgress } from './srs';
 
@@ -199,4 +199,32 @@ export function resetAllUserData(): void {
   localStorage.removeItem(STATS_KEY);
   localStorage.removeItem(CUSTOM_WORDS_KEY);
   localStorage.removeItem(QUIZ_HISTORY_KEY);
+}
+
+// ==========================================
+// ERROR REPORTING FUNCTIONS
+// ==========================================
+export function loadErrorReports(): ErrorReport[] {
+  if (!isBrowser()) return [];
+  try {
+    const raw = localStorage.getItem('vocabforge_error_reports');
+    if (raw) return JSON.parse(raw);
+  } catch (e) {
+    console.error('Failed to load error reports:', e);
+  }
+  return [];
+}
+
+export function saveErrorReport(report: ErrorReport): ErrorReport[] {
+  const current = loadErrorReports();
+  const updated = [...current, report];
+  if (isBrowser()) {
+    localStorage.setItem('vocabforge_error_reports', JSON.stringify(updated));
+  }
+  return updated;
+}
+
+export function clearErrorReports(): void {
+  if (!isBrowser()) return;
+  localStorage.removeItem('vocabforge_error_reports');
 }

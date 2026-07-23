@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Volume2, RotateCw, Sparkles, HelpCircle, BookOpen, Layers, GitBranch, KeyRound } from 'lucide-react';
+import { Volume2, RotateCw, Sparkles, HelpCircle, BookOpen, Layers, GitBranch, KeyRound, Flag } from 'lucide-react';
 import { VocabWord } from '@/types/vocab';
 import { Rating } from '@/lib/srs';
+import { ReportErrorModal } from './ReportErrorModal';
 
 interface SRSFlashcardProps {
   word: VocabWord;
@@ -21,6 +22,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 }) => {
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
   const [showRootHint, setShowRootHint] = useState<boolean>(false);
+  const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
 
   // Toggle card flip
   const handleFlip = () => {
@@ -144,7 +146,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
         >
           {/* FRONT SIDE */}
           <div
-            className={`w-full min-h-[400px] sm:min-h-[460px] rounded-3xl p-5 sm:p-8 glass-panel border border-slate-700/60 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden group-hover:border-indigo-500/40 transition-colors ${
+            className={`w-full min-h-[400px] sm:min-h-[460px] max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-3xl p-5 sm:p-8 glass-panel border border-slate-700/60 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden group-hover:border-indigo-500/40 transition-colors ${
               isFlipped ? 'pointer-events-none' : ''
             }`}
           >
@@ -177,8 +179,20 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                   ))}
                 </div>
 
-                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400">
-                  <BookOpen className="w-4 h-4" />
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsReportOpen(true);
+                    }}
+                    className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-colors"
+                    title="Report Issue"
+                  >
+                    <Flag className="w-4 h-4" />
+                  </button>
+                  <div className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400">
+                    <BookOpen className="w-4 h-4" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,7 +258,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
 
           {/* BACK SIDE */}
           <div
-            className={`w-full min-h-[400px] sm:min-h-[460px] rounded-3xl p-5 sm:p-8 glass-panel border border-indigo-500/40 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden rotate-y-180 ${
+            className={`w-full min-h-[400px] sm:min-h-[460px] max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-3xl p-5 sm:p-8 glass-panel border border-indigo-500/40 shadow-2xl flex flex-col justify-between absolute inset-0 backface-hidden rotate-y-180 ${
               !isFlipped ? 'pointer-events-none' : ''
             }`}
           >
@@ -254,13 +268,25 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
                 <span className="text-xl font-bold font-heading text-white">{word.word}</span>
                 <span className="text-xs italic text-indigo-400">({word.partOfSpeech})</span>
               </div>
-              <button
-                onClick={playAudio}
-                className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20"
-                title="Listen Pronunciation"
-              >
-                <Volume2 className="w-4 h-4" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsReportOpen(true);
+                  }}
+                  className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20"
+                  title="Report Issue"
+                >
+                  <Flag className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={playAudio}
+                  className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20"
+                  title="Listen Pronunciation"
+                >
+                  <Volume2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {/* Back Content Details */}
@@ -389,6 +415,13 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
           <span className="text-[9px] opacity-60 font-mono mt-1">[Key 4]</span>
         </button>
       </div>
+
+      <ReportErrorModal
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        wordId={word.id}
+        wordText={word.word}
+      />
     </div>
   );
 };

@@ -13,6 +13,7 @@ export interface VocabWord {
   phonetic: string;
   partOfSpeech: string;
   definition: string;
+  audioText?: string;
   root: string; // e.g., "MAL (bad/evil)"
   rootFamily: string; // e.g., "Latin Root: MAL / MIS / DIS"
   cluster: string; // Thematic group, e.g., "Hostility & Harm", "Speech & Talkativeness"

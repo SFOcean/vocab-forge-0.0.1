@@ -33,7 +33,7 @@ export const SRSFlashcard: React.FC<SRSFlashcardProps> = ({
   const playAudio = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(word.word);
+      const utterance = new SpeechSynthesisUtterance(word.audioText || word.word);
       utterance.rate = 0.9;
       utterance.lang = 'en-US';
       window.speechSynthesis.speak(utterance);

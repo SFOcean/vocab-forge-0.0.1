@@ -184,10 +184,10 @@ export const Dashboard: React.FC = () => {
     return 'tag-bcs';
   };
 
-  const playAudio = (e: React.MouseEvent, wordText: string) => {
+  const playAudio = (e: React.MouseEvent, textToRead: string) => {
     e.stopPropagation();
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(wordText);
+      const utterance = new SpeechSynthesisUtterance(textToRead);
       utterance.rate = 0.9;
       utterance.lang = 'en-US';
       window.speechSynthesis.speak(utterance);
@@ -660,7 +660,7 @@ export const Dashboard: React.FC = () => {
                           <div className="flex items-center gap-2">
                             <span>{word.word}</span>
                             <button
-                              onClick={(e) => playAudio(e, word.word)}
+                              onClick={(e) => playAudio(e, word.audioText || word.word)}
                               className="p-1 rounded bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20"
                             >
                               <Volume2 className="w-3 h-3" />

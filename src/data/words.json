@@ -2,7 +2,7 @@
   {
     "id": "ws-001",
     "word": "Abate",
-    "phonetic": "uh·bayt",
+    "phonetic": "/əˈbeɪt/",
     "partOfSpeech": "verb",
     "definition": "To reduce in amount, degree, or intensity.",
     "root": "AB (away) + BATERE (to beat)",
@@ -25,7 +25,7 @@
     "banglaMeaning": "হ্রাস পাওয়া",
     "relatedForms": "Noun: abatement",
     "preposition": "abate by/from",
-    "audioText": "uh bate"
+    "audioText": "abate"
   },
   {
     "id": "ws-002",

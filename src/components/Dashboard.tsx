@@ -403,6 +403,7 @@ export const Dashboard: React.FC = () => {
           <div className="space-y-6">
             {deck.length > 0 && currentDeckIndex < deck.length ? (
               <SRSFlashcard
+                key={deck[currentDeckIndex].id}
                 word={deck[currentDeckIndex]}
                 onRate={handleRateCard}
                 cardIndex={currentDeckIndex}

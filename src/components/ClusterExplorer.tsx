@@ -124,6 +124,7 @@ export const ClusterExplorer: React.FC<ClusterExplorerProps> = ({
         </div>
 
         <SRSFlashcard
+          key={currentWord.id}
           word={currentWord}
           onRate={handleRateClusterCard}
           cardIndex={activeClusterStudy.index}
